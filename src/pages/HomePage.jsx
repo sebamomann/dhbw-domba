@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import { f7, f7ready, App, Button, Navbar, Link, Block, Icon, Page } from "framework7-react";
 
-import BusinessList from "./BusinessList";
 import { createBusiness, subscribeForPushNotifications } from "../services/businessService";
 import { getAuthenticatedUserData, isUserAuthenticated, logoutUser } from "../services/authenticationService";
+
+import BusinessList from "./BusinessList";
 
 const HomePage = () => {
   const [authenticated, setIsLoggedIn] = useState(false);
