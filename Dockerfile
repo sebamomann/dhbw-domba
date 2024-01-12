@@ -15,6 +15,7 @@ COPY . .
 
 # Build the app
 RUN npm run build
+RUN ls
 
 ## STAGE 2
 FROM nginx:1.25.3-alpine
