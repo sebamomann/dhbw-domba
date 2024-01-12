@@ -1,4 +1,4 @@
-import { Block, BlockTitle, Icon } from "framework7-react";
+import { Block, BlockTitle, Icon, Button } from "framework7-react";
 
 // Function to render stars based on the rating
 const renderStars = (rating) => {
@@ -19,18 +19,25 @@ const renderStars = (rating) => {
 };
 
 // Your component for displaying ratings
-const RatingsDisplay = ({ ratings }) => (
+const RatingsDisplay = ({ ratings, closeRatings }) => (
   <div>
-    {ratings.map((item, index) => (
-      <Block key={index} strong>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          {renderStars(item.stars)}
-          <span style={{ fontWeight: "bold", marginLeft: "10px", fontSize: "18px" }}>{item.expand.creator.name}</span>
-        </div>
-        <p>{item.comment}</p>
-        <BlockTitle />
-      </Block>
-    ))}
+    <Button onClick={() => closeRatings()}>Zurück</Button>
+    {ratings.length > 0 ? (
+      ratings.map((item, index) => (
+        <Block key={index} strong>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {renderStars(item.stars)}
+            <span style={{ fontWeight: "bold", marginLeft: "10px", fontSize: "18px" }}>
+              {item?.expand?.creator.name}
+            </span>
+          </div>
+          <p>{item.comment}</p>
+          <BlockTitle />
+        </Block>
+      ))
+    ) : (
+      <></>
+    )}
   </div>
 );
 

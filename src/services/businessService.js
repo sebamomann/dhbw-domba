@@ -25,7 +25,7 @@ const fetchAllBusinesses = async () => {
 };
 
 const isLoggedIn = () => {
-    return client.authStore.baseToken != "";
+    return client.authStore.isValid;
 };
 
 const authenticate = async (username, password) => {
@@ -39,7 +39,7 @@ const authenticate = async (username, password) => {
 
 const createBusiness = async (businessData) => {
     try {
-        const userId = client.authStore.baseModel.id;
+        const userId = client.authStore.model.id;
         businessData.creator = userId;
 
         const createdBusiness = await client.collection('business').create(businessData);
@@ -52,7 +52,7 @@ const createBusiness = async (businessData) => {
 
 const createRating = async (ratingData) => {
     try {
-        const userId = client.authStore.baseModel.id;
+        const userId = client.authStore.model.id;
         ratingData.creator = userId;
 
         const createdRating = await client.collection('ratings').create(ratingData);
@@ -72,4 +72,58 @@ const fetchRatingsByBusinessId = async (businessId) => {
     return ratings;
 };
 
-export { fetchAllBusinesses, authenticate, createBusiness, createRating, isLoggedIn, fetchRatingsByBusinessId };
+const subscribeForPushNotifications = async () => {
+    const userId = client.authStore.model.id;
+
+    try {
+        // Check for service worker and push notification support
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+            console.error("Push notifications are not supported in this browser.");
+            return;
+        }
+
+        // Request permission for push notifications
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') {
+            throw new Error('Permission not granted for Notification');
+        }
+
+        const registration = await navigator.serviceWorker.ready;
+
+        if (await isSubscribed()) {
+            console.log("Existing subscription detected");
+            return; // Optionally, you could return or use the existing subscription
+        }
+
+        // Subscribe for push notifications
+        const pushSubscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            // Replace with your public VAPID key
+            applicationServerKey: 'BI-BcJsyQSKp_uXEC1FmFKW-rhpzw08wLITNfh9eCZydjvLDtL3jyBCQRITxcCOdjdif_DAY29_Ken09Lg75jrU'
+        });
+
+        // Send subscription to PocketBase
+        await client.collection('subscriptions').create({
+            user: userId,
+            subscription: pushSubscription
+        });
+
+        console.log('Push notification subscription successful');
+    } catch (error) {
+        console.error('Failed to subscribe for push notifications:', error);
+    }
+};
+
+const isSubscribed = async () => {
+    const registration = await navigator.serviceWorker.ready;
+
+    const existingSubscription = await registration.pushManager.getSubscription();
+    if (existingSubscription) {
+        console.log("Existing subscription detected:", existingSubscription);
+        return existingSubscription; // Optionally, you could return or use the existing subscription
+    }
+};
+
+
+
+export { fetchAllBusinesses, authenticate, createBusiness, createRating, isLoggedIn, fetchRatingsByBusinessId, subscribeForPushNotifications, isSubscribed };

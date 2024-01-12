@@ -12,6 +12,10 @@ import BusinessList from '../pages/businessList.jsx';
 
 var routes = [
   {
+    path: '/manifest.json',
+    
+  },
+  {
     path: '/',
     component: HomePage,
   },

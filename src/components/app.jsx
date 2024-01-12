@@ -29,13 +29,21 @@ import routes from "../js/routes";
 import store from "../js/store";
 import BusinessCreationForm from "../pages/businessCreationForm";
 import BusinessList from "../pages/businessList";
-import { createBusiness, authenticate } from "../services/businessService";
+import {
+  createBusiness,
+  authenticate,
+  isLoggedIn,
+  subscribeForPushNotifications,
+  isSubscribed,
+} from "../services/businessService";
+import client from "../services/PocketbaseService";
 
 const MyApp = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authenticated, setIsLoggedIn] = useState(isLoggedIn());
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState();
+  const [subbed, setIsSubscribed] = useState(false);
 
   // Framework7 Parameters
   const f7params = {
@@ -48,7 +56,6 @@ const MyApp = () => {
   f7ready(() => {});
 
   const handleCreateBusiness = async (businessData) => {
-    console.log("handleCreateBusiness " + businessData);
     await createBusiness(businessData);
   };
 
@@ -58,11 +65,9 @@ const MyApp = () => {
     let isAuth = await authenticate(username, password);
 
     if (isAuth) {
-      console.log("aaa");
       setIsLoggedIn(true);
       f7.loginScreen.close();
     } else {
-      console.log("bbb");
       setLoginError("Incorrect username or password");
     }
   };
@@ -70,6 +75,7 @@ const MyApp = () => {
   const handleLogout = () => {
     setUsername("");
     setIsLoggedIn(false);
+    client.authStore.clear();
   };
 
   return (
@@ -78,13 +84,15 @@ const MyApp = () => {
         <Navbar title="Your App" />
 
         <Block>
-          {isLoggedIn ? (
+          {authenticated ? (
             // User is logged in, display username and logout button
             <>
               <p>Welcome, {username}!</p>
               <Button fill onClick={handleLogout}>
                 Logout
               </Button>
+
+              <Button onClick={() => subscribeForPushNotifications()} />
             </>
           ) : (
             // User is not logged in, display login button
@@ -96,9 +104,9 @@ const MyApp = () => {
           )}
         </Block>
 
-        <BusinessList />
+        <BusinessList loggedIn={authenticated} />
 
-        {isLoggedIn ? <BusinessCreationForm onSubmit={handleCreateBusiness} /> : <></>}
+        {authenticated ? <BusinessCreationForm onSubmit={handleCreateBusiness} /> : <></>}
       </Page>
 
       <LoginScreen id="my-login-screen">

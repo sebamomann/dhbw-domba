@@ -20,9 +20,25 @@ import App from '../components/app.jsx';
 
 import "../pages/app.css";
 
+
+import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
+
 // Init F7 React Plugin
 Framework7.use(Framework7React);
 
 // Mount React App
 const root = createRoot(document.getElementById('app'));
 root.render(React.createElement(App));
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+

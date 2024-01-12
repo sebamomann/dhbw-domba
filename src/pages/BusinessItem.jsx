@@ -1,14 +1,17 @@
 import { ListItem, Block, Icon, Button, f7 } from "framework7-react";
 import { isLoggedIn } from "../services/businessService";
+import React, { useState, useEffect } from "react";
 
-const BusinessItem = ({ business, onBusinessSelected }) => {
-  const userIsLoggedIn = isLoggedIn();
+const BusinessItem = ({ business, loggedIn, onBusinessSelected }) => {
+  const login = (event) => {
+    event.stopPropagation();
 
-  const login = () => {
     f7.loginScreen.open("#my-login-screen");
   };
 
-  const openRatingForm = (businessId) => {
+  const openRatingForm = (event, businessId) => {
+    event.stopPropagation();
+
     onBusinessSelected(businessId);
     f7.popup.open("#rating-popup");
   };
@@ -61,9 +64,9 @@ const BusinessItem = ({ business, onBusinessSelected }) => {
         </div>
       </div>
 
-      {userIsLoggedIn ? (
+      {loggedIn ? (
         <Button
-          onClick={() => openRatingForm(business.id)}
+          onClick={(event) => openRatingForm(event, business.id)}
           style={{
             border: "1px solid gray",
             padding: "8px",
@@ -78,7 +81,7 @@ const BusinessItem = ({ business, onBusinessSelected }) => {
         </Button>
       ) : (
         <Button
-          onClick={() => login()}
+          onClick={(event) => login(event)}
           style={{
             border: "1px solid gray",
             padding: "8px",

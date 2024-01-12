@@ -19,7 +19,6 @@ const BusinessCreationForm = ({ onSubmit }) => {
     };
 
     // Pass the businessData to the onSubmit function provided by the parent component
-    console.log("handleSubmit: ", businessData);
     onSubmit(businessData);
 
     // Clear form fields
