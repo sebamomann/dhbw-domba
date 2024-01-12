@@ -4,13 +4,13 @@ import { f7, f7ready, App, Button, Navbar, Link, Block, Icon, Page } from "frame
 
 import { createBusiness, subscribeForPushNotifications } from "../services/businessService";
 import { getAuthenticatedUserData, isUserAuthenticated, logoutUser } from "../services/authenticationService";
-
-import BusinessList from "./BusinessList";
+import BusinessList from "./renameforbigBusinessList";
 
 const HomePage = () => {
   const [authenticated, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
 
+  // TODO SUB
   const [subbed, setIsSubscribed] = useState(false);
 
   const handleCreateBusiness = async (businessData) => {
