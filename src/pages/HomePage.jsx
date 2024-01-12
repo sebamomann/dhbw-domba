@@ -4,7 +4,7 @@ import { f7, f7ready, App, Button, Navbar, Link, Block, Icon, Page } from "frame
 
 import { createBusiness, subscribeForPushNotifications } from "../services/businessService";
 import { getAuthenticatedUserData, isUserAuthenticated, logoutUser } from "../services/authenticationService";
-import BusinessList from "./renameforbigBusinessList";
+import BusinessList from "./BusinessList";
 
 const HomePage = () => {
   const [authenticated, setIsLoggedIn] = useState(false);
