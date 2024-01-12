@@ -1,4 +1,4 @@
-import client from './PocketbaseService';
+import client from './PocketBaseService';
 
 const fetchAllBusinesses = async () => {
     const businesses = await client.collection('business').getFullList({
