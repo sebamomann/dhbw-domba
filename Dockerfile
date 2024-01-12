@@ -16,18 +16,11 @@ COPY . .
 # Build the app
 RUN npm run build
 
+## STAGE 2
+FROM nginx:1.25.3-alpine
 
-# Stage 2: Serve the app with Nginx
-FROM nginx:alpine
+#COPY --from=build /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/src/app/dist/anmeldesystem-ui /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the build output from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy Nginx configuration file (if you have a custom one)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh",  "-c",  "exec nginx -g 'daemon off;'"]
