@@ -24,19 +24,6 @@ const fetchAllBusinesses = async () => {
     return businessesWithRatings;
 };
 
-const isLoggedIn = () => {
-    return client.authStore.isValid;
-};
-
-const authenticate = async (username, password) => {
-    try {
-        let authData = await client.collection('users').authWithPassword(username, password);
-        return client.authStore.isValid;
-    } catch (e) {
-        return false;
-    }
-};
-
 const createBusiness = async (businessData) => {
     try {
         const userId = client.authStore.model.id;
@@ -61,6 +48,23 @@ const createRating = async (ratingData) => {
     } catch (error) {
         console.error("Error creating rating:", error);
     }
+};
+
+const getBusinessById = async (businessId) => {
+    const business = await client.collection('business').getOne(businessId);
+
+    const ratings = await client.collection('ratings').getFullList({
+        filter: `business = "${business.id}"`,
+    });
+
+    // Calculate the average rating
+    const averageRating = ratings.reduce((sum, rating) => sum + rating.stars, 0) / ratings.length;
+
+    // Return business with its average rating
+    return {
+        ...business,
+        averageRating: isNaN(averageRating) ? 0 : averageRating,
+    };
 };
 
 const fetchRatingsByBusinessId = async (businessId) => {
@@ -126,4 +130,4 @@ const isSubscribed = async () => {
 
 
 
-export { fetchAllBusinesses, authenticate, createBusiness, createRating, isLoggedIn, fetchRatingsByBusinessId, subscribeForPushNotifications, isSubscribed };
+export { fetchAllBusinesses, createBusiness, createRating, fetchRatingsByBusinessId, subscribeForPushNotifications, isSubscribed, getBusinessById };

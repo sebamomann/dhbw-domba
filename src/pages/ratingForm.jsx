@@ -17,7 +17,7 @@ const RatingForm = ({ onClose, onSubmit }) => {
         <List>
           <BlockTitle>Rate this Business</BlockTitle>
           <ListInput type="range" min="0" max="5" step="1" value={rating} onInput={(e) => setRating(e.target.value)} />
-          <ListItem>{rating}/5 Sterne</ListItem>
+          <ListE>{rating}/5 Sterne</ListE>
           <ListInput
             type="text"
             placeholder="Your comment..."

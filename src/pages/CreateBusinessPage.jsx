@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Page, Navbar, BlockTitle, List, ListItem, Input, Button } from "framework7-react";
 
-const BusinessCreationForm = ({ onSubmit }) => {
+const CreateBusinessPage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
@@ -29,7 +29,7 @@ const BusinessCreationForm = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <Page>
       <List form>
         <ListItem>
           Name
@@ -54,8 +54,8 @@ const BusinessCreationForm = ({ onSubmit }) => {
           Create Business
         </Button>
       </div>
-    </div>
+    </Page>
   );
 };
 
-export default BusinessCreationForm;
+export default CreateBusinessPage;
