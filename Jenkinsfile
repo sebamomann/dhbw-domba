@@ -92,7 +92,7 @@ pipeline {
 }
 
 void updateStatus(String value) {
-  sh 'curl -s "https://api.github.com/repos/sebamomann/anmeldesystem-frontend/statuses/$GIT_COMMIT" \\\n' +
+  sh 'curl -s "https://api.github.com/repos/sebamomann/dhbw-domba/statuses/$GIT_COMMIT" \\\n' +
     '  -H "Content-Type: application/json" \\\n' +
     '  -H "Authorization: token $GITHUB_STATUS_ACCESS_TOKEN_SEBAMOMANN" \\\n' +
     '  -X POST \\\n' +
