@@ -21,8 +21,6 @@ import App from '../components/app.jsx';
 import "../pages/app.css";
 
 
-import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
-
 // Init F7 React Plugin
 Framework7.use(Framework7React);
 

@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Page,
-  Navbar,
-  BlockTitle,
-  Icon,
-  ListItem,
-  Input,
-  Button,
-  Block,
-  Popup,
-  List,
-  ListInput,
-  f7,
-} from "framework7-react";
+import { Page, BlockTitle, Icon, Button, Block } from "framework7-react";
 import BusinessItem from "./BusinessItem";
-import { createRating, fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
+import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
 import RatingPopup from "./RatingPopup";
 
 const BusinessPage = ({ f7route, loggedIn, f7router }) => {

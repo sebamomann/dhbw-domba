@@ -1,5 +1,5 @@
-import { ListItem, Block, Icon, Button, f7 } from "framework7-react";
-import React, { useState, useEffect } from "react";
+import { Block, Icon, Button, f7 } from "framework7-react";
+import React from "react";
 
 const BusinessItem = ({ business, loggedIn, onBusinessSelected }) => {
   const renderStars = (rating) => {
