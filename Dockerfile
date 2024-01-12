@@ -21,7 +21,7 @@ RUN ls
 FROM nginx:1.25.3-alpine
 
 #COPY --from=build /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/www /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD ["/bin/sh",  "-c",  "exec nginx -g 'daemon off;'"]
