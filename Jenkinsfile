@@ -5,6 +5,8 @@ def build_number = "${env.BUILD_NUMBER}"
 
 def backendImageLatest
 
+def tagName = 'jb_' + branch_name + "_" + build_number
+
 pipeline {
   agent any
 
