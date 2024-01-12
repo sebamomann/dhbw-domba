@@ -1,0 +1,18 @@
+{
+  "cwd": "D:\\Studium\\Master\\M000_DOMBA\\001_react_framework7",
+  "type": [
+    "web"
+  ],
+  "name": "publicapi",
+  "framework": "react",
+  "template": "single-view",
+  "cssPreProcessor": "scss",
+  "bundler": "vite",
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}
