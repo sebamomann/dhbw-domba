@@ -1,19 +1,33 @@
-FROM node:13.12.0-alpine
+# Stage 1: Build the React application
+FROM node:latest as build
 
-# set working directory
+# Set the working directory
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+# Install dependencies
+RUN npm install
 
-# add app
-COPY . ./
+# Copy the rest of your app's source code
+COPY . .
 
-# start app
-CMD ["npm", "start"]
+# Build the app
+RUN npm run build
+
+
+# Stage 2: Serve the app with Nginx
+FROM nginx:alpine
+
+# Copy the build output from the previous stage
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy Nginx configuration file (if you have a custom one)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
