@@ -27,7 +27,6 @@ import {
 
 import routes from "../js/routes";
 import store from "../js/store";
-import BusinessCreationForm from "../pages/businessCreationForm";
 import BusinessList from "../pages/businessList";
 import {
   createBusiness,
@@ -36,7 +35,8 @@ import {
   subscribeForPushNotifications,
   isSubscribed,
 } from "../services/businessService";
-import client from "../services/PocketbaseService";
+import client from "../services/PocketBaseService";
+import BusinessCreationForm from "../pages/businessCreationForm";
 
 const MyApp = () => {
   const [authenticated, setIsLoggedIn] = useState(isLoggedIn());
