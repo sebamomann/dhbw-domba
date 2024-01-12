@@ -50,10 +50,10 @@ pipeline {
         }
       }
     }
-    stage('Publish to registry - master') {
+    stage('Publish to registry - main') {
       when {
         expression {
-          return branch_name =~ "master"
+          return branch_name =~ "main"
         }
       }
       steps {
