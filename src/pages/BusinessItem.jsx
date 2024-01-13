@@ -50,13 +50,15 @@ const BusinessItem = ({ business, loggedIn, onBusinessSelected }) => {
       </div>
 
       <div style={{ marginBottom: "8px", textAlign: "left", fontSize: "14px", verticalAlign: "sub" }}>
-        <Icon f7="phone_fill" style={{ marginRight: "8px", fontSize: "24px" }} />
+        <Icon f7="chat_bubble_fill" style={{ marginRight: "8px", fontSize: "24px" }} />
         {business.contact}
       </div>
 
       <div style={{ marginBottom: "8px", textAlign: "left", fontSize: "14px", verticalAlign: "sub" }}>
         <Icon f7="map_pin_ellipse" style={{ marginRight: "8px", fontSize: "24px" }} />
-        {business.location}
+        <a href={"https://maps.google.com/?q=" + business.location} className="external">
+          {business.location}
+        </a>
       </div>
     </Block>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchAllBusinesses } from "../services/businessService";
 import { List, Block } from "framework7-react";
 import BusinessItem from "./BusinessItem";
+import { eventEmitter } from "../js/eventemitter";
 
 const BusinessList = ({ loggedIn }) => {
   const [businesses, setBusinesses] = useState([]);
@@ -18,6 +19,8 @@ const BusinessList = ({ loggedIn }) => {
   useEffect(() => {
     loadBusinesses();
   }, []);
+
+  eventEmitter.subscribe("businessCreated", loadBusinesses);
 
   return (
     <List mediaList>

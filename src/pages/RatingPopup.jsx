@@ -46,7 +46,7 @@ const RatingPopup = ({ businessId, formSubmitted, isPopupOpen, closePopup }) => 
           <h1 style={{ textAlign: "center" }}>Bewertung</h1>
           <Block style={{ textAlign: "center" }}>{renderStarsClickable()}</Block>
           <ListInput
-            type="text"
+            type="textarea"
             placeholder="Kommentar ..."
             value={comment}
             onInput={(e) => setComment(e.target.value)}

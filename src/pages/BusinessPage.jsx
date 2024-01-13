@@ -15,7 +15,7 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
   useEffect(() => {
     loadBusiness(businessId);
     loadRatings(businessId);
-  }, []);
+  }, [ratings]);
 
   const loadBusiness = async () => {
     try {

@@ -41,10 +41,10 @@ const LoginPage = ({ f7router }) => {
 
       <Block style={{ display: "flex", gap: "16px" }}>
         <Button onClick={() => f7router.back()} style={{ width: "50%", backgroundColor: "#E1E2EC" }}>
-          Back
+          Zurück
         </Button>
         <Button fill onClick={submitLoginForm} style={{ width: "50%" }}>
-          Sign in
+          Anmelden
         </Button>
       </Block>
     </Page>
