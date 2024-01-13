@@ -16,7 +16,7 @@ import '../css/icons.css';
 import '../css/app.scss';
 
 // Import App Component
-import App from '../components/app.jsx';
+import App from '../components/MainAppComponent.jsx';
 
 
 // Init F7 React Plugin

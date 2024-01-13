@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { f7, Page, Block, Button, Icon } from "framework7-react";
-import BusinessList from "./BusinessList";
+import BusinessList from "../components/BusinessList";
 import { isUserAuthenticated } from "../services/authenticationService";
 import { eventEmitter } from "../js/eventemitter";
 

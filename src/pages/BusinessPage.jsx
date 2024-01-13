@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Page, BlockTitle, Icon, Button, Block } from "framework7-react";
-import BusinessItem from "./BusinessItem";
+import BusinessItem from "../components/BusinessItem";
 import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
-import RatingPopup from "./RatingPopup";
+import RatingPopup from "../components/RatingPopup";
 import { eventEmitter } from "../js/eventemitter";
 
 const BusinessPage = ({ f7route, loggedIn, f7router }) => {

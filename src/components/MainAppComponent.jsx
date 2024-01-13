@@ -5,7 +5,7 @@ import { f7ready, App, View } from "framework7-react";
 import routes from "../js/routes";
 import { eventEmitter } from "../js/eventemitter";
 
-const MyApp = () => {
+const MainAppComponent = () => {
   const [error, setError] = useState("");
 
   // Framework7 Parameters
@@ -32,4 +32,4 @@ const MyApp = () => {
   );
 };
 
-export default MyApp;
+export default MainAppComponent;
