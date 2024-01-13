@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { f7, Page, Block, Button, Icon } from "framework7-react";
-import BusinessList from "../components/BusinessList";
 import { isUserAuthenticated } from "../services/authenticationService";
 import { eventEmitter } from "../js/eventemitter";
+import BusinessList from "../components/BusinessList";
 
 const HomePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,7 +14,7 @@ const HomePage = () => {
       console.error("Error in authentication check:", error);
       eventEmitter.emit("error", "An error occurred while checking authentication status.");
     }
-  }, [isAuthenticated]);
+  });
 
   const navigateTo = (route) => {
     f7.views.main.router.navigate(route);
