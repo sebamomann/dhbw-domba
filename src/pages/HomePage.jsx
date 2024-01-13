@@ -1,50 +1,49 @@
 import React, { useState, useEffect } from "react";
-
-import { f7, f7ready, App, Button, Navbar, Link, Block, Icon, Page } from "framework7-react";
-
-import { createBusiness } from "../services/businessService";
-import { isUserAuthenticated } from "../services/authenticationService";
+import { f7, Page, Block, Button, Icon } from "framework7-react";
 import BusinessList from "./BusinessList";
+import { isUserAuthenticated } from "../services/authenticationService";
+import { eventEmitter } from "../js/eventemitter";
 
 const HomePage = () => {
-  const [authenticated, setIsLoggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(isUserAuthenticated());
-  });
+    try {
+      setIsAuthenticated(isUserAuthenticated());
+    } catch (error) {
+      console.error("Error in authentication check:", error);
+      eventEmitter.emit("error", "An error occurred while checking authentication status.");
+    }
+  }, [isAuthenticated]);
+
+  const navigateTo = (route) => {
+    f7.views.main.router.navigate(route);
+  };
 
   return (
     <Page>
       <Block>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          {authenticated ? (
-            <Button fill onClick={() => f7.views.main.router.navigate("/create/")}>
+        <div className="home-header">
+          {isAuthenticated ? (
+            <Button fill onClick={() => navigateTo("/create/")}>
               Neu
             </Button>
           ) : (
-            <div style={{ width: "50px" }}></div>
+            <div className="placeholder-div"></div>
           )}
-          <h2
-            style={{
-              flex: 1, // This makes the text container take up the available space
-              textAlign: "center",
-            }}
-          >
-            Business Reviews
-          </h2>
-          {authenticated ? (
-            <Button onClick={() => f7.views.main.router.navigate("/profile/")} style={{ marginLeft: "auto" }}>
+          <h2 className="home-title">Business Reviews</h2>
+          {isAuthenticated ? (
+            <Button onClick={() => navigateTo("/profile/")}>
               <Icon f7="person" />
             </Button>
           ) : (
-            <Button fill onClick={() => f7.views.main.router.navigate("/login/")}>
+            <Button fill onClick={() => navigateTo("/login/")}>
               Login
             </Button>
           )}
         </div>
       </Block>
-
-      <BusinessList loggedIn={authenticated} />
+      <BusinessList loggedIn={isAuthenticated} />
     </Page>
   );
 };

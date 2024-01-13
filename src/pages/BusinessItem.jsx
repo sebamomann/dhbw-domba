@@ -1,62 +1,57 @@
 import { Block, Icon, Button, f7 } from "framework7-react";
 import React from "react";
 
-const BusinessItem = ({ business, loggedIn, onBusinessSelected }) => {
+const BusinessItem = ({ business }) => {
   const renderStars = (rating) => {
     const totalStars = 5;
-    let stars = [];
+    const stars = [];
 
-    let style = { fontSize: "20px", verticalAlign: "baseline" };
-
-    // Adding full stars
-    for (let i = 0; i < Math.floor(rating); i++) {
-      stars.push(<Icon key={`full_${i}`} f7="star_fill" style={style} />);
-    }
-
-    // Adding half star if needed
-    if (rating % 1 !== 0) {
-      stars.push(<Icon key="star_lefthalf_fill" f7="star_lefthalf_fill" style={style} />);
-    }
-
-    // Adding empty stars
-    for (let i = Math.ceil(rating); i < totalStars; i++) {
-      stars.push(<Icon key={`empty_${i}`} f7="star" style={style} />);
+    // Create stars based on rating
+    for (let i = 1; i <= totalStars; i++) {
+      if (i <= rating) {
+        stars.push(<Icon key={`full_${i}`} f7="star_fill" className="star-icon" />);
+      } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
+        stars.push(<Icon key="star_half_fill" f7="star_lefthalf_fill" className="star-icon" />);
+      } else {
+        stars.push(<Icon key={`empty_${i}`} f7="star" className="star-icon" />);
+      }
     }
 
     return stars;
   };
 
+  if (!business) {
+    console.error("No business data provided");
+    return <div>Business information is not available.</div>;
+  }
+
   return (
-    <Block strong style={{ textAlign: "center", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "16px" }}>
-        <div style={{ fontWeight: "bold", fontSize: "18px", textAlign: "left" }}>{business.name}</div>
-        <Button
-          onClick={() => {
-            f7.views.main.router.navigate(`/business/${business.id}`);
-          }}
-        >
+    <Block strong className="business-item">
+      <div className="business-header">
+        <div className="business-name">{business.name}</div>
+        <Button onClick={() => f7.views.main.router.navigate(`/business/${business.id}`)}>
           {renderStars(business.averageRating)}
         </Button>
       </div>
 
-      <div style={{ marginBottom: "20px", textAlign: "left" }}>{business.description}</div>
+      <div className="business-description">{business.description}</div>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="business-image-container">
         <img
-          src={"https://pocketbase.sebamomann.de/api/files/business/" + business.id + "/" + business.image}
-          style={{ width: "100%", height: "auto", borderRadius: "4px" }}
+          src={`https://pocketbase.sebamomann.de/api/files/business/${business.id}/${business.image}`}
+          className="business-image"
           alt="Business"
         />
       </div>
 
-      <div style={{ marginBottom: "8px", textAlign: "left", fontSize: "14px", verticalAlign: "sub" }}>
-        <Icon f7="chat_bubble_fill" style={{ marginRight: "8px", fontSize: "24px" }} />
+      <div className="business-contact">
+        <Icon f7="chat_bubble_fill" className="icon" />
         {business.contact}
       </div>
 
-      <div style={{ marginBottom: "8px", textAlign: "left", fontSize: "14px", verticalAlign: "sub" }}>
-        <Icon f7="map_pin_ellipse" style={{ marginRight: "8px", fontSize: "24px" }} />
-        <a href={"https://maps.google.com/?q=" + business.location} className="external">
+      <div className="business-location">
+        <Icon f7="map_pin_ellipse" className="icon" />
+        <a href={`https://maps.google.com/?q=${business.location}`} className="external">
           {business.location}
         </a>
       </div>

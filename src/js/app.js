@@ -18,8 +18,6 @@ import '../css/app.scss';
 // Import App Component
 import App from '../components/app.jsx';
 
-import "../pages/app.css";
-
 
 // Init F7 React Plugin
 Framework7.use(Framework7React);

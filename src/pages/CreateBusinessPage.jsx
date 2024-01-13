@@ -8,31 +8,36 @@ const CreateBusinessPage = ({ f7router }) => {
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
   const [location, setLocation] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
 
-  const handleSubmit = () => {
-    const businessData = {
-      name,
-      description,
-      contact,
-      location,
-      image: file,
-    };
+  const handleSubmit = async () => {
+    try {
+      const businessData = {
+        name,
+        description,
+        contact,
+        location,
+        image: file,
+      };
 
-    // Pass the businessData to the onSubmit function provided by the parent component
-    createBusiness(businessData);
+      await createBusiness(businessData);
 
-    // Clear form fields
-    setName("");
-    setDescription("");
-    setContact("");
-    setLocation("");
-    setFile("");
+      // Clear form fields
+      setName("");
+      setDescription("");
+      setContact("");
+      setLocation("");
+      setFile(null);
 
-    eventEmitter.emit("businessCreated", null);
+      eventEmitter.emit("businessCreated", null);
 
-    f7router.back();
+      f7router.back();
+    } catch (err) {
+      console.error("Error creating business:", err);
+      eventEmitter.emit("error", "An error occurred while creating the business.");
+    }
   };
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -40,7 +45,7 @@ const CreateBusinessPage = ({ f7router }) => {
   return (
     <Page>
       <Block>
-        <h1 style={{ textAlign: "center" }}>Neues Business</h1>
+        <h1 className="page-title">Neues Business</h1>
         <List form>
           <ListInput placeholder="Name" type="text" value={name} onInput={(e) => setName(e.target.value)} />
           <ListInput
@@ -54,11 +59,11 @@ const CreateBusinessPage = ({ f7router }) => {
           <ListInput placeholder="Datei" type="file" value={file} onInput={(e) => handleFileChange(e)} />
         </List>
 
-        <Block style={{ display: "flex", gap: "16px" }}>
-          <Button onClick={() => f7router.back()} style={{ width: "50%", backgroundColor: "#E1E2EC" }}>
+        <Block className="button-group">
+          <Button onClick={() => f7router.back()} className="back-button">
             Zurück
           </Button>
-          <Button fill onClick={handleSubmit} style={{ width: "50%" }}>
+          <Button fill onClick={handleSubmit} className="save-button">
             Speichern
           </Button>
         </Block>

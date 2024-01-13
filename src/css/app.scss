@@ -1,1 +1,200 @@
-/* Your app custom styles here */
+.list .item-text {
+    max-height: unset;
+    display: block;
+}
+
+/* Style for the header section of the home page */
+.home-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Placeholder div for maintaining layout symmetry */
+.placeholder-div {
+  width: 50px;
+}
+
+/* Style for the main title on the home page */
+.home-title {
+  flex: 1; /* This makes the text container take up the available space */
+  text-align: center;
+}
+
+/* Style for displaying error messages */
+.error-message {
+  text-align: center;
+  margin-bottom: 10px; /* Add some space below the error message */
+  background-color: #ff0033;
+  border-radius: 8px;
+    max-width: 300px;
+    width: 75%;
+    margin: 16px auto;
+    text-align: center;
+    padding: 8px 16px;
+    color: white;
+}
+
+.page-title {
+  text-align: center;
+}
+
+.error-message-inline {
+  text-align: center;
+  color: red;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+
+.back-button, .login-button {
+  width: 50%;
+}
+
+.back-button {
+  background-color: #E1E2EC;
+}
+
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.placeholder-div {
+  width: 50px;
+}
+
+.profile-title {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.info-text {
+  text-align: center;
+  margin-top: 26px;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+
+.back-button {
+  width: 50%;
+  background-color: #E1E2EC;
+}
+
+
+.popup-title {
+  text-align: center;
+}
+
+.star-icon {
+  font-size: 26px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.star-rating {
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+
+.back-button, .save-button {
+  width: 50%;
+}
+
+.back-button {
+  background-color: #E1E2EC;
+}
+
+.page-title {
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+
+.back-button, .save-button {
+  width: 50%;
+}
+
+.back-button {
+  background-color: #E1E2EC;
+}
+
+
+
+
+.back-icon {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* Add CSS classes for other elements as needed */
+
+
+.business-item {
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.business-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+
+  .button {
+    margin-right: 0px;
+    padding: 0px;
+  }
+}
+
+.business-name {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: left;
+}
+
+.star-icon {
+  font-size: 20px;
+  vertical-align: baseline;
+}
+
+.business-description {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.business-image-container {
+  margin-bottom: 20px;
+}
+
+.business-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.business-contact, .business-location {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: sub;
+}
+
+.icon {
+  margin-right: 8px
+}

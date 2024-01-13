@@ -8,18 +8,25 @@ const LoginPage = ({ f7router }) => {
   const [loginError, setLoginError] = useState("");
 
   const submitLoginForm = async () => {
-    let isAuth = await authenticateUser(username, password);
+    try {
+      const isAuth = await authenticateUser(username, password);
 
-    if (isAuth) {
-      f7router.back();
-    } else {
-      setLoginError("Incorrect username or password");
+      if (isAuth) {
+        console.log("User authenticated successfully");
+        f7router.back();
+      } else {
+        console.log("Authentication failed: Incorrect username or password");
+        setLoginError("Incorrect username or password");
+      }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+      setLoginError("An error occurred during login");
     }
   };
 
   return (
     <Page name="login">
-      <h1 style={{ textAlign: "center" }}>Login</h1>
+      <h1 className="page-title">Login</h1>
       <List form>
         <ListInput
           type="text"
@@ -27,23 +34,23 @@ const LoginPage = ({ f7router }) => {
           placeholder="Enter username"
           value={username}
           onInput={(e) => setUsername(e.target.value)}
-        ></ListInput>
+        />
         <ListInput
           type="password"
           name="password"
           placeholder="Enter password"
           value={password}
           onInput={(e) => setPassword(e.target.value)}
-        ></ListInput>
+        />
       </List>
 
-      <Block style={{ textAlign: "center", color: "red" }}>{loginError}</Block>
+      {loginError && <Block className="error-message-inline">{loginError}</Block>}
 
-      <Block style={{ display: "flex", gap: "16px" }}>
-        <Button onClick={() => f7router.back()} style={{ width: "50%", backgroundColor: "#E1E2EC" }}>
+      <Block className="button-group">
+        <Button onClick={() => f7router.back()} className="back-button">
           Zurück
         </Button>
-        <Button fill onClick={submitLoginForm} style={{ width: "50%" }}>
+        <Button fill onClick={submitLoginForm} className="login-button">
           Anmelden
         </Button>
       </Block>

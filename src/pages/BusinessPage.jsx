@@ -3,28 +3,31 @@ import { Page, BlockTitle, Icon, Button, Block } from "framework7-react";
 import BusinessItem from "./BusinessItem";
 import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
 import RatingPopup from "./RatingPopup";
+import { eventEmitter } from "../js/eventemitter";
 
 const BusinessPage = ({ f7route, loggedIn, f7router }) => {
   const [business, setBusiness] = useState(null);
   const [ratings, setRatings] = useState([]);
-
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const businessId = f7route.params.id;
 
   useEffect(() => {
-    loadBusiness(businessId);
-    loadRatings(businessId);
-  }, [ratings]);
+    const loadBusinessAndRatings = async () => {
+      try {
+        const loadedBusiness = await getBusinessById(businessId);
+        setBusiness(loadedBusiness);
 
-  const loadBusiness = async () => {
-    try {
-      const business = await getBusinessById(businessId);
-      setBusiness(business);
-    } catch (error) {
-      console.error("Failed to load businesses:", error);
-    }
-  };
+        const loadedRatings = await fetchRatingsByBusinessId(businessId);
+        setRatings(loadedRatings);
+      } catch (err) {
+        console.error("Failed to load business or ratings:", err);
+        eventEmitter.emit("error", "An error occurred while loading data.");
+      }
+    };
+
+    loadBusinessAndRatings();
+  }, [businessId]);
 
   const loadRatings = async (businessId) => {
     try {
@@ -56,20 +59,17 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
     <Page>
       <Block>
         <Button
-          onClick={() => f7router.back()}
-          style={{ width: "fit-content", padding: "0px", right: "0px", color: "gray" }}
-        >
-          <Icon f7="chevron_left" style={{ fontSize: "18px", marginRight: "10px" }} /> Zurück
-        </Button>
-        {business != null ? <BusinessItem loggedIn={loggedIn} business={business} /> : <></>}
-      </Block>
-      <Block>
-        <Button
-          fill
+          className="back-button"
           onClick={() => {
-            setIsPopupOpen(true);
+            f7router.back();
           }}
         >
+          <Icon f7="chevron_left" className="back-icon" /> Zurück
+        </Button>
+        {business && <BusinessItem loggedIn={loggedIn} business={business} />}
+      </Block>
+      <Block>
+        <Button fill onClick={() => setIsPopupOpen(true)}>
           Jetzt bewerten!
         </Button>
       </Block>
@@ -95,7 +95,7 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
           <></>
         )}
       </Block>
-
+      {/* Rating Popup */}
       <RatingPopup
         formSubmitted={() => loadRatings(businessId)}
         businessId={businessId}

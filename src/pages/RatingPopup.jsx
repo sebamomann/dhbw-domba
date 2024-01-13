@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Popup, Block, List, ListInput, Button, Icon, f7 } from "framework7-react";
+import { Popup, Block, List, ListInput, Button, Icon } from "framework7-react";
 import { createRating } from "../services/businessService";
+import { eventEmitter } from "../js/eventemitter";
 
 const RatingPopup = ({ businessId, formSubmitted, isPopupOpen, closePopup }) => {
   const [comment, setComment] = useState("");
@@ -22,40 +23,35 @@ const RatingPopup = ({ businessId, formSubmitted, isPopupOpen, closePopup }) => 
   };
 
   const handleSubmit = async () => {
-    const ratingData = {
-      stars: rating,
-      comment: comment,
-      business: businessId,
-    };
-
-    createRating(ratingData);
-
-    // reset form
-    setComment("");
-    setRating(0);
-
-    formSubmitted();
-
-    closePopup();
+    try {
+      await createRating({ stars: rating, comment, business: businessId });
+      setComment("");
+      setRating(0);
+      formSubmitted();
+      closePopup();
+    } catch (err) {
+      eventEmitter.emit("error", "Error submitting rating. Please try again.");
+      console.error("Error submitting rating:", err);
+    }
   };
 
   return (
     <Popup id="rating-popup" opened={isPopupOpen}>
       <Block>
         <List>
-          <h1 style={{ textAlign: "center" }}>Bewertung</h1>
-          <Block style={{ textAlign: "center" }}>{renderStarsClickable()}</Block>
+          <h1 className="popup-title">Bewertung</h1>
+          <Block className="star-rating">{renderStarsClickable()}</Block>
           <ListInput
             type="textarea"
             placeholder="Kommentar ..."
             value={comment}
             onInput={(e) => setComment(e.target.value)}
           />
-          <Block style={{ display: "flex", gap: "16px" }}>
-            <Button onClick={() => closePopup()} style={{ width: "50%", backgroundColor: "#E1E2EC" }}>
+          <Block className="button-group">
+            <Button onClick={closePopup} className="back-button">
               Zurück
             </Button>
-            <Button fill onClick={() => handleSubmit()} style={{ width: "50%" }}>
+            <Button fill onClick={handleSubmit} className="save-button">
               Speichern
             </Button>
           </Block>
