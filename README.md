@@ -44,10 +44,10 @@ services:
 ### Frontend
 - The application is built with React, offering a responsive and user-friendly interface.
 - Key pages include:
-  - **HomePage:** Displays the list of businesses.
-  - **BusinessPage:** Shows detailed information about a specific business and its reviews.
-  - **CreateBusinessPage:** Allows business owners to add their business to the listing.
-  - **LoginPage & ProfilePage:** Manages user login and profile information.
+  - **[HomePage](./src/pages/HomePage.jsx):** Displays the [BusinessList](./src/components/BusinessList.jsx) made from [BusinessItems](./src/components/BusinessItem.jsx).
+  - **[BusinessPage](./src/pages/BusinessPage.jsx):** Shows detailed information about a specific business as [BusinessItem](./src/components/BusinessItem.jsx) and its [RatingsList](./src/components/RatingsList.jsx).
+  - **[CreateBusinessPage](./src/pages/CreateBusinessPage.jsx):** Allows business owners to add their business to the listing.
+  - **[LoginPage](./src/pages/LoginPage.jsx) & [ProfilePage](./src/pages/ProfilePage.jsx):** Manages user login and profile information.
 
 ## Conclusion
 The Business Reviews platform is a straightforward tool for discovering and reviewing businesses. It's designed to be simple yet effective, providing valuable insights about local services and eateries to users. It's a practical project that demonstrates the integration of modern web technologies.
