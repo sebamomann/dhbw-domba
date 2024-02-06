@@ -1,7 +1,7 @@
 # Business Reviews Platform
 
 ## Introduction
-The Business Reviews platform is a web-based application that connects customers with businesses. It allows users to browse various businesses, read reviews, and submit their own feedback. This platform is particularly useful for finding local services or restaurants.
+The Business Reviews platform is a web-based application, developed with react and framework 7, that connects customers with businesses. It allows users to browse various businesses, read reviews, and submit their own feedback. This platform is particularly useful for finding local services or restaurants.
 
 ## Core Features
 
@@ -39,7 +39,10 @@ services:
 ```
 
 ### Notifications
-- The platform can send real-time notifications to users about updates or new reviews using a Node.js script. This script can be seen in [push_notification_sender.js](./push_notification_sender.js). 
+- The platform can send real-time notifications to users about updates or new reviews using a Node.js script. This script can be seen in [push_notification_sender.js](./push_notification_sender.js) and needs to be executed parallel to the webpage. 
+- A notification will look like this (on a Windows 10 Device). Also tested on Android 12 devices.
+  
+![Windows 10](./readme/img/notification_win10.png)
 
 ### Frontend
 - The application is built with React, offering a responsive and user-friendly interface.
