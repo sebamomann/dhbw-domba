@@ -1,12 +1,26 @@
 import { Block, Icon, Button, f7 } from "framework7-react";
 import React from "react";
 
+/**
+ * Representation of a Business Card with all necessary information
+ *
+ * @param {*} param0  Business to display
+ *
+ * @returns
+ */
 const BusinessItem = ({ business }) => {
+  /**
+   * Create a visual representation of the number of stars (in form of HTML).
+   * Use full star, half star and empty star icons to represent a x/5 s score including half values.
+   *
+   * @param {number} rating  Rating out of 5
+   *
+   * @returns List of start icons in correct order
+   */
   const renderStars = (rating) => {
     const totalStars = 5;
     const stars = [];
 
-    // Create stars based on rating
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         stars.push(<Icon key={`full_${i}`} f7="star_fill" className="star-icon" />);
@@ -20,6 +34,7 @@ const BusinessItem = ({ business }) => {
     return stars;
   };
 
+  // display message if business not available
   if (!business) {
     console.error("No business data provided");
     return <div>Business information is not available.</div>;
@@ -37,6 +52,7 @@ const BusinessItem = ({ business }) => {
       <div className="business-description">{business.description}</div>
 
       <div className="business-image-container">
+        {/* Load image from pocketbase server - no api token needed */}
         <img
           src={`https://pocketbase.sebamomann.de/api/files/business/${business.id}/${business.image}`}
           className="business-image"

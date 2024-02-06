@@ -30,8 +30,8 @@ const RatingPopup = ({ businessId, formSubmitted, isPopupOpen, closePopup }) => 
       formSubmitted();
       closePopup();
     } catch (err) {
-      eventEmitter.emit("error", "Error submitting rating. Please try again.");
       console.error("Error submitting rating:", err);
+      eventEmitter.emit("error", "Error submitting rating. Please try again.");
     }
   };
 

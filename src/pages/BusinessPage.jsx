@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Page, BlockTitle, Icon, Button, Block } from "framework7-react";
+import { Block, Button, Icon, Page } from "framework7-react";
+import React, { useEffect, useState } from "react";
+
 import BusinessItem from "../components/BusinessItem";
-import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
 import RatingPopup from "../components/RatingPopup";
-import { eventEmitter } from "../js/eventemitter";
 import RatingsList from "../components/RatingsList";
+
+import { eventEmitter } from "../js/eventemitter";
+import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
 
 const BusinessPage = ({ f7route, loggedIn, f7router }) => {
   const [business, setBusiness] = useState(null);
   const [ratings, setRatings] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  /** Business ID - fetch from current path /business/:id */
   const businessId = f7route.params.id;
 
+  /**
+   * Initialize component. Load business data. Load ratings.
+   */
   useEffect(() => {
     const loadBusinessAndRatings = async () => {
       try {
@@ -22,7 +28,7 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
         const loadedRatings = await fetchRatingsByBusinessId(businessId);
         setRatings(loadedRatings);
       } catch (err) {
-        console.error("Failed to load business or ratings:", err);
+        console.error("An error occurred while loading data.", err);
         eventEmitter.emit("error", "An error occurred while loading data.");
       }
     };
@@ -30,12 +36,21 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
     loadBusinessAndRatings();
   }, [businessId]);
 
+  /**
+   * Fetch ratings from pocketbase for a specific business.
+   * Update rating field. Do not return ratings.
+   *
+   * @param {string} businessId   Collection entry ID for business
+   *
+   * @returns void
+   */
   const loadRatings = async (businessId) => {
     try {
       const ratings = await fetchRatingsByBusinessId(businessId);
       setRatings(ratings);
     } catch (error) {
-      console.error("Failed to load ratings:", error);
+      console.error("An error occurred while while loading ratings", err);
+      eventEmitter.emit("error", "An error occurred while while loading ratings");
     }
   };
 
@@ -52,13 +67,15 @@ const BusinessPage = ({ f7route, loggedIn, f7router }) => {
         </Button>
         {business && <BusinessItem loggedIn={loggedIn} business={business} />}
       </Block>
+
       <Block>
         <Button fill onClick={() => setIsPopupOpen(true)}>
           Jetzt bewerten!
         </Button>
       </Block>
+
       <RatingsList ratings={ratings}></RatingsList>
-      {/* Rating Popup */}
+
       <RatingPopup
         formSubmitted={() => loadRatings(businessId)}
         businessId={businessId}

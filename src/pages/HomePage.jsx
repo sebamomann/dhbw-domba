@@ -7,6 +7,9 @@ import BusinessList from "../components/BusinessList";
 const HomePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  /**
+   * Initialize component. Fetch user authentication state
+   */
   useEffect(() => {
     try {
       setIsAuthenticated(isUserAuthenticated());
@@ -16,6 +19,7 @@ const HomePage = () => {
     }
   });
 
+  /** Navigate to given route (same tab) */
   const navigateTo = (route) => {
     f7.views.main.router.navigate(route);
   };

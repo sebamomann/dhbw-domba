@@ -9,6 +9,9 @@ const ProfilePage = ({ f7router }) => {
   const [authenticated, setIsLoggedIn] = useState(false);
   const [isPushSubscribed, setIsSubscribed] = useState(false);
 
+  /**
+   * Initialize component. Load user data. Manage push notification state.
+   */
   useEffect(() => {
     try {
       const authStatus = isUserAuthenticated();
@@ -16,9 +19,11 @@ const ProfilePage = ({ f7router }) => {
 
       if (authStatus) {
         setUserData(getAuthenticatedUserData());
+
         const fetchAndSetSubscriptionStatus = async () => {
           setIsSubscribed(await isSubscribedToPush());
         };
+
         fetchAndSetSubscriptionStatus();
       }
     } catch (err) {
@@ -27,6 +32,9 @@ const ProfilePage = ({ f7router }) => {
     }
   }, []);
 
+  /**
+   * Trigger logout and clear data. Navigate back to origin.
+   */
   const handleLogout = () => {
     logoutUser();
     setIsLoggedIn(false);
@@ -34,14 +42,21 @@ const ProfilePage = ({ f7router }) => {
     f7router.back();
   };
 
-  const handleSubscription = async (subscribe) => {
+  /**
+   * Handle subscription trigger.<br/>
+   * Toggle subscription to passed state.
+   *
+   * @param {boolean} subscriptionTargetState  Expected state
+   */
+  const handleSubscription = async (subscriptionTargetState) => {
     try {
-      if (subscribe) {
+      if (subscriptionTargetState) {
         await subscribeToPush();
       } else {
         await unsubscribeFromPush();
       }
-      setIsSubscribed(subscribe);
+
+      setIsSubscribed(subscriptionTargetState);
     } catch (err) {
       console.error("Error in subscription handling:", err);
       eventEmitter.emit("error", "An error occurred with push notifications.");

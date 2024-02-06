@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Page, List, Block, Button, ListInput } from "framework7-react";
+
 import { createBusiness } from "../services/businessService";
 import { eventEmitter } from "../js/eventemitter";
 
@@ -10,6 +11,12 @@ const CreateBusinessPage = ({ f7router }) => {
   const [location, setLocation] = useState("");
   const [file, setFile] = useState(null);
 
+  /**
+   * Execute business creation.<br/>
+   * Read input fields and create DTO for the API call.
+   *
+   * @returns void
+   */
   const handleSubmit = async () => {
     try {
       const businessData = {
@@ -21,31 +28,36 @@ const CreateBusinessPage = ({ f7router }) => {
       };
 
       await createBusiness(businessData);
+      clearFields();
 
-      // Clear form fields
-      setName("");
-      setDescription("");
-      setContact("");
-      setLocation("");
-      setFile(null);
-
+      // trigger creation event and navigate back
       eventEmitter.emit("businessCreated", null);
-
       f7router.back();
     } catch (err) {
-      console.error("Error creating business:", err);
+      console.error("An error occurred while creating the business.", err);
       eventEmitter.emit("error", "An error occurred while creating the business.");
     }
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  /**
+   * Clear all fields. Needed if user wants to create multiple entries.<br/>
+   * Otherwise, re-navigating to creation page still contains values from previous submit.
+   *
+   * @returns void
+   */
+  const clearFields = () => {
+    setName("");
+    setDescription("");
+    setContact("");
+    setLocation("");
+    setFile(null);
   };
 
   return (
     <Page>
       <Block>
         <h1 className="page-title">Neues Business</h1>
+
         <List form>
           <ListInput placeholder="Name" type="text" value={name} onInput={(e) => setName(e.target.value)} />
           <ListInput
@@ -56,7 +68,7 @@ const CreateBusinessPage = ({ f7router }) => {
           />
           <ListInput placeholder="Kontakt" type="text" value={contact} onInput={(e) => setContact(e.target.value)} />
           <ListInput placeholder="Adresse" type="text" value={location} onInput={(e) => setLocation(e.target.value)} />
-          <ListInput placeholder="Datei" type="file" value={file} onInput={(e) => handleFileChange(e)} />
+          <ListInput placeholder="Datei" type="file" value={file} onInput={(e) => setFile(e.target.files[0])} />
         </List>
 
         <Block className="button-group">

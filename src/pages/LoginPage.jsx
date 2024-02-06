@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Page, List, ListInput, Button, Block } from "framework7-react";
+
 import { authenticateUser } from "../services/authenticationService";
 
 const LoginPage = ({ f7router }) => {
@@ -7,6 +8,12 @@ const LoginPage = ({ f7router }) => {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
+  /**
+   * Execute Login.<br/>
+   * Trigger pocketbase login. Handle and display error if necessary.
+   *
+   * @returns void
+   */
   const submitLoginForm = async () => {
     try {
       const isAuth = await authenticateUser(username, password);
@@ -27,6 +34,7 @@ const LoginPage = ({ f7router }) => {
   return (
     <Page name="login">
       <h1 className="page-title">Login</h1>
+
       <List form>
         <ListInput
           type="text"
