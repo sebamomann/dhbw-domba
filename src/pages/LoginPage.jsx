@@ -3,14 +3,22 @@ import { Page, List, ListInput, Button, Block } from "framework7-react";
 
 import { authenticateUser } from "../services/authenticationService";
 
+/**
+ * Login page for user authentication.
+ * Simple authentication form which updates page wide states on login
+ *
+ * @param {*} param0 router object
+ *
+ * @returns
+ */
 const LoginPage = ({ f7router }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
   /**
-   * Execute Login.<br/>
-   * Trigger pocketbase login. Handle and display error if necessary.
+   * Execute Login
+   * Trigger login in API. Handle and display error if necessary.
    *
    * @returns void
    */

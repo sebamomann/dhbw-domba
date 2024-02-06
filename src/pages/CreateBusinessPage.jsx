@@ -4,7 +4,15 @@ import { Page, List, Block, Button, ListInput } from "framework7-react";
 import { createBusiness } from "../services/businessService";
 import { eventEmitter } from "../js/eventemitter";
 
+/**
+ * Business creation page containing form to create new business
+ *
+ * @param {*} param0  router object
+ *
+ * @returns
+ */
 const CreateBusinessPage = ({ f7router }) => {
+  // input field states
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [contact, setContact] = useState("");
@@ -42,8 +50,6 @@ const CreateBusinessPage = ({ f7router }) => {
   /**
    * Clear all fields. Needed if user wants to create multiple entries.<br/>
    * Otherwise, re-navigating to creation page still contains values from previous submit.
-   *
-   * @returns void
    */
   const clearFields = () => {
     setName("");

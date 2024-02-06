@@ -4,25 +4,20 @@ import { List, Block, Button, Icon, Page } from "framework7-react";
 import BusinessItem from "./BusinessItem";
 import { eventEmitter } from "../js/eventemitter";
 
+/**
+ * Representation of a Business List containing multiple businesses
+ *
+ * @param {*} param0  Is user authenticated
+ *
+ * @returns
+ */
 const BusinessList = ({ loggedIn }) => {
+  // state uf business list. this list will be rendered
   const [businesses, setBusinesses] = useState([]);
 
-  const reload = async () => {
-    await loadBusinesses();
-  };
-
-  // Function to load businesses from the server
-  const loadBusinesses = async () => {
-    try {
-      const businessList = await fetchAllBusinesses();
-      setBusinesses(businessList);
-      console.log("Businesses loaded successfully");
-    } catch (error) {
-      console.error("Failed to load businesses:", error);
-      eventEmitter.emit("error", "Failed to load businesses. Please try again later.");
-    }
-  };
-
+  /**
+   * Initialize component. Load business data
+   */
   useEffect(() => {
     loadBusinesses();
 
@@ -34,9 +29,22 @@ const BusinessList = ({ loggedIn }) => {
     };
   }, []);
 
+  /**
+   * Fetch all businesses from API
+   */
+  const loadBusinesses = async () => {
+    try {
+      const businessList = await fetchAllBusinesses();
+      setBusinesses(businessList);
+    } catch (error) {
+      console.error("Failed to load businesses:", error);
+      eventEmitter.emit("error", "Failed to load businesses. Please try again later.");
+    }
+  };
+
   return (
     // PTR does not properly work
-    <Block ptr ptrMousewheel={true} onPtrRefresh={reload}>
+    <Block ptr ptrMousewheel={true} onPtrRefresh={loadBusinesses}>
       <List mediaList>
         {businesses.map((business) => (
           <Block key={business.id}>

@@ -8,9 +8,19 @@ import RatingsList from "../components/RatingsList";
 import { eventEmitter } from "../js/eventemitter";
 import { fetchRatingsByBusinessId, getBusinessById } from "../services/businessService";
 
+/**
+ * Business page for displaying all business related information like business data and reviews
+ *
+ * @param {*} param0  route object, user login state, router object
+ *
+ * @returns
+ */
 const BusinessPage = ({ f7route, loggedIn, f7router }) => {
+  // state of current business
   const [business, setBusiness] = useState(null);
+  // state of ratings (objects) for this business
   const [ratings, setRatings] = useState([]);
+  // state for managing popup close/open state
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   /** Business ID - fetch from current path /business/:id */

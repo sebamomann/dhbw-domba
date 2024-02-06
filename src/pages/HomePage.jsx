@@ -4,6 +4,11 @@ import { isUserAuthenticated } from "../services/authenticationService";
 import { eventEmitter } from "../js/eventemitter";
 import BusinessList from "../components/BusinessList";
 
+/**
+ * Home page. Initial point of entry.
+ * Show user login state and include list component
+ *
+ */
 const HomePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 

@@ -4,6 +4,12 @@ import { getAuthenticatedUserData, isUserAuthenticated, logoutUser } from "../se
 import { isSubscribedToPush, subscribeToPush, unsubscribeFromPush } from "../services/pushService";
 import { eventEmitter } from "../js/eventemitter";
 
+/**
+ * Profile page displaying user information and managing subscription.
+ *
+ * @param {*} param0 router object
+ * @returns
+ */
 const ProfilePage = ({ f7router }) => {
   const [userData, setUserData] = useState(null);
   const [authenticated, setIsLoggedIn] = useState(false);

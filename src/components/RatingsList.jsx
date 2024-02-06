@@ -1,17 +1,29 @@
 import React from "react";
 import { Block, Icon, BlockTitle } from "framework7-react";
 
+/**
+ * Component displaying list of ratings for a given business
+ *
+ * @param {*} param0 Ratings objects that should be displayed.
+ * @returns
+ */
 const RatingsList = ({ ratings }) => {
+  /**
+   * Create a visual representation of the number of stars (in form of HTML).
+   * Similar to {@link BusinessItem.renderStars} but without half stars.
+   *
+   * @param {number} rating  Rating out of 5
+   *
+   * @returns List of start icons in correct order
+   */
   const renderStars = (rating) => {
     const totalStars = 5;
     let stars = [];
 
-    // Adding full stars
     for (let i = 0; i < rating; i++) {
       stars.push(<Icon key={`full_${i}`} f7="star_fill" style={{ fontSize: "16px" }} />);
     }
 
-    // Adding empty stars if needed
     for (let i = rating; i < totalStars; i++) {
       stars.push(<Icon key={`empty_${i}`} f7="star" style={{ fontSize: "16px" }} />);
     }
